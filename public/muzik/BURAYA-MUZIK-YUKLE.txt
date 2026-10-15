@@ -1,0 +1,2 @@
+Bu klasöre bir müzik dosyası (mp3, m4a, wav) yükle. Klasördeki ilk ses dosyası kullanılır.
+Logo istersen public klasörüne "logo.png" adıyla koy.

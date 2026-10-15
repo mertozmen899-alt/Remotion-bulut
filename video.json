@@ -1,0 +1,22 @@
+{
+  "format": "dikey",
+  "sahneSuresi": 3,
+  "gecisSuresi": 0.5,
+  "gecisTipi": "karisik",
+  "fotoYerlesim": "sigdir",
+  "renk": "#FFC400",
+  "muzikSesi": 0.8,
+  "giris": {
+    "baslik": "Remotion Bulut",
+    "altBaslik": "İlk test videosu"
+  },
+  "yazilar": [
+    "Fotoğraflarını gönder",
+    "Yazılarını yaz",
+    "Video bulutta hazırlansın"
+  ],
+  "kapanis": {
+    "baslik": "Hazır!",
+    "altBaslik": "Telefonuna MP4 olarak iner"
+  }
+}

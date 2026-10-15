@@ -1,0 +1,59 @@
+name: Video oluştur
+
+on:
+  push:
+    paths:
+      - "video.json"
+      - "public/**"
+      - "src/**"
+      - "scripts/**"
+      - "package.json"
+      - ".github/workflows/video.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: video
+  cancel-in-progress: true
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Dosyaları al
+        uses: actions/checkout@v4
+
+      - name: Node kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Remotion kur
+        run: npm install --no-audit --no-fund
+
+      - name: Fotoğraf ve müzikleri hazırla
+        run: npm run hazirla
+
+      - name: Videoyu oluştur
+        run: npx remotion render src/index.ts Video out/video.mp4 --codec=h264 --crf=18
+
+      - name: Videoyu "Son video" sayfasına koy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete son-video --yes --cleanup-tag || true
+          sleep 3
+          gh release create son-video out/video.mp4 \
+            --target "${GITHUB_SHA}" \
+            --title "Son video" \
+            --notes "Oluşturulma: $(TZ=Europe/Istanbul date +'%d.%m.%Y %H:%M')"
+
+      - name: Yedek olarak sakla
+        uses: actions/upload-artifact@v4
+        with:
+          name: video
+          path: out/video.mp4
+          retention-days: 14

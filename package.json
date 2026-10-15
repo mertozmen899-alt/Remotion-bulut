@@ -1,0 +1,21 @@
+{
+  "name": "remotion-bulut",
+  "private": true,
+  "scripts": {
+    "hazirla": "node scripts/hazirla.mjs",
+    "studio": "node scripts/hazirla.mjs && remotion studio src/index.ts",
+    "render": "node scripts/hazirla.mjs && remotion render src/index.ts Video out/video.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "@remotion/transitions": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.5.0"
+  }
+}
