@@ -28,21 +28,21 @@ export const Zemin: React.FC = () => {
     <AbsoluteFill
       style={{
         background:
-          "radial-gradient(ellipse 85% 60% at 50% 42%, #1f1f1f 0%, #101010 55%, #040404 100%)",
+          "radial-gradient(ellipse 85% 60% at 50% 42%, #121212 0%, #070707 55%, #000000 100%)",
       }}
     >
       <svg
         width={W}
         height={H}
-        style={{ position: "absolute", inset: 0, opacity: 0.55, mixBlendMode: "screen" }}
+        style={{ position: "absolute", inset: 0, opacity: 0.4, mixBlendMode: "screen" }}
       >
         <filter id="zemin-leke">
           <feTurbulence type="fractalNoise" baseFrequency="0.0035" numOctaves={4} seed={11} />
           <feColorMatrix type="saturate" values="0" />
           <feComponentTransfer>
-            <feFuncR type="linear" slope="0.22" />
-            <feFuncG type="linear" slope="0.22" />
-            <feFuncB type="linear" slope="0.22" />
+            <feFuncR type="linear" slope="0.13" />
+            <feFuncG type="linear" slope="0.13" />
+            <feFuncB type="linear" slope="0.13" />
             <feFuncA type="linear" slope="0" intercept="1" />
           </feComponentTransfer>
         </filter>
