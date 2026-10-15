@@ -1,22 +1,47 @@
 {
+  "stil": "kolaj",
   "format": "dikey",
-  "sahneSuresi": 3,
-  "gecisSuresi": 0.5,
-  "gecisTipi": "karisik",
-  "fotoYerlesim": "sigdir",
-  "renk": "#FFC400",
-  "muzikSesi": 0.8,
-  "giris": {
-    "baslik": "Remotion Bulut",
-    "altBaslik": "İlk test videosu"
-  },
-  "yazilar": [
-    "Fotoğraflarını gönder",
-    "Yazılarını yaz",
-    "Video bulutta hazırlansın"
-  ],
-  "kapanis": {
-    "baslik": "Hazır!",
-    "altBaslik": "Telefonuna MP4 olarak iner"
-  }
+  "fps": 30,
+  "renk": "#E3262F",
+  "muzikSesi": 0.7,
+  "efektSesi": true,
+  "sahneler": [
+    {
+      "tip": "bolme",
+      "foto": "01-bardak-bayrak.jpg",
+      "odak": [0.42, 0.72],
+      "urun": "https://narcil.net/images/products/6aca9b57e2f7f_9bf3b17d69ca49f6.png",
+      "kucuk": "her yudumda",
+      "buyuk": "keyif",
+      "sure": 3.6
+    },
+    {
+      "tip": "detay",
+      "urun": "https://narcil.net/images/products/67bcb5a381b4e_d2128fe95a03662e.jpeg",
+      "yanFotolar": ["03-mojito-teras.jpg", "04-nargile.jpg"],
+      "kucuk": "her masada",
+      "buyuk": "sohbet",
+      "sure": 3.2
+    },
+    {
+      "tip": "isik",
+      "foto": "02-guinness.jpg",
+      "odak": [0.52, 0.79],
+      "yakinlik": 3.4,
+      "kucuk": "sadece kahve değil",
+      "buyuk": "atmosfer",
+      "sure": 5
+    },
+    {
+      "tip": "kapanis",
+      "foto": "02-guinness.jpg",
+      "odak": [0.52, 0.79],
+      "yakinlik": 3.4,
+      "baslik": "NARÇİL",
+      "altBaslik": "hookah / coffee house",
+      "slogan": "L♥VES YOU",
+      "satirlar": ["@narcil_loves_you", "narcil.net"],
+      "sure": 4.6
+    }
+  ]
 }

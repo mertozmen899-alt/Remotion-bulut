@@ -15,13 +15,8 @@ import type { TransitionPresentation } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
 import { wipe } from "@remotion/transitions/wipe";
-import { loadFont } from "@remotion/google-fonts/Montserrat";
 import { hesapla, Bolum } from "./ayarlar";
-
-const { fontFamily } = loadFont("normal", {
-  weights: ["500", "700", "800"],
-  subsets: ["latin", "latin-ext"],
-});
+import { fontFamily } from "./yazi";
 
 const SINIR = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 

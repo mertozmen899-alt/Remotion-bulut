@@ -57,6 +57,53 @@ for (const f of fotoDosyalari) {
   });
 }
 
+// video.json'da "sahneler" listesi varsa: sahnelerdeki fotoğrafları
+// (foto, urun, yanFotolar) public/fotolar'dan kopyala; "http" ile
+// başlıyorsa internetten indir. Sonuç: sahneDosyalari[i].foto vb.
+const ayar = JSON.parse(fs.readFileSync(path.join(kok, "video.json"), "utf8"));
+const sahneDosyalari = [];
+const indirmeHatalari = [];
+
+const cozumle = async (deger, ad) => {
+  if (!deger) return null;
+  if (/^https?:\/\//i.test(deger)) {
+    const yanit = await fetch(deger, { headers: { "User-Agent": "Mozilla/5.0" } });
+    if (!yanit.ok) throw new Error(`indirilemedi (${yanit.status}): ${deger}`);
+    const tip = yanit.headers.get("content-type") ?? "";
+    const uzanti =
+      path.extname(new URL(deger).pathname).toLowerCase() ||
+      (tip.includes("png") ? ".png" : tip.includes("webp") ? ".webp" : ".jpg");
+    fs.writeFileSync(path.join(hazir, `${ad}${uzanti}`), Buffer.from(await yanit.arrayBuffer()));
+    return `_hazir/${ad}${uzanti}`;
+  }
+  const kaynak = path.join(fotoKlasoru, deger);
+  if (!fs.existsSync(kaynak)) throw new Error(`bulunamadı: fotolar/${deger}`);
+  return kopyala(kaynak, `${ad}${path.extname(deger).toLowerCase()}`);
+};
+
+const guvenli = async (deger, ad, etiket) => {
+  try {
+    return await cozumle(deger, ad);
+  } catch (hata) {
+    indirmeHatalari.push(`${etiket}: ${hata.message}`);
+    return null;
+  }
+};
+
+for (const [i, s] of (ayar.sahneler ?? []).entries()) {
+  const ad = `sahne-${String(i + 1).padStart(2, "0")}`;
+  const etiket = `${i + 1}. sahne`;
+  const yanlar = [];
+  for (const [j, y] of (s.yanFotolar ?? []).entries()) {
+    yanlar.push(await guvenli(y, `${ad}-yan${j + 1}`, etiket));
+  }
+  sahneDosyalari.push({
+    foto: await guvenli(s.foto ?? s.url, `${ad}-foto`, etiket),
+    urun: await guvenli(s.urun, `${ad}-urun`, etiket),
+    yanFotolar: yanlar,
+  });
+}
+
 // Müzik (klasördeki ilk ses dosyası)
 const muzikDosyasi = oku(muzikKlasoru).find((f) => SES.test(f));
 const muzik = muzikDosyasi
@@ -75,13 +122,23 @@ const logo = logoDosyasi
     )
   : null;
 
-fs.writeFileSync(cikti, JSON.stringify({ dosyalar, muzik, logo }, null, 2));
+fs.writeFileSync(
+  cikti,
+  JSON.stringify({ dosyalar, muzik, logo, sahneDosyalari }, null, 2),
+);
 
 console.log("── Hazırlık özeti ──");
 console.log(`Fotoğraf/klip: ${dosyalar.length}`);
 dosyalar.forEach((d, i) => console.log(`  ${i + 1}. ${d.asil} (${d.tur})`));
 console.log(`Müzik: ${muzikDosyasi ?? "yok"}`);
 console.log(`Logo: ${logoDosyasi ?? "yok"}`);
+sahneDosyalari.forEach((s, i) => {
+  const hepsi = [s.foto, s.urun, ...s.yanFotolar].filter(Boolean);
+  console.log(`Sahne ${i + 1}: ${hepsi.length ? hepsi.join(", ") : "(fotoğrafsız)"}`);
+});
+if (indirmeHatalari.length) {
+  console.log(`UYARI: Bazı sahneler fotoğrafsız kaldı:\n  ${indirmeHatalari.join("\n  ")}`);
+}
 if (atlanan.length) {
   console.log(
     `UYARI: Şu dosyalar kullanılamadı (desteklenmeyen biçim, ör. HEIC): ${atlanan.join(", ")}`,
